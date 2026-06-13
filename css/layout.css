@@ -1,0 +1,201 @@
+/* ═══════════════════════════════════════════
+   LAYOUT — 章节布局 + App Shell
+   ═══════════════════════════════════════════ */
+
+/* ── App Shell ── */
+.app {
+  position: relative;
+  z-index: 1;
+}
+
+.app__content {
+  position: relative;
+  z-index: 2;
+  padding-top: var(--nav-h);
+}
+
+/* ── Container ── */
+.container {
+  width: 100%;
+  max-width: var(--wide);
+  margin: 0 auto;
+  padding: 0 var(--fx-pad);
+}
+
+.container--narrow {
+  max-width: 780px;
+}
+
+/* ── Section Shell ── */
+.section {
+  display: none;
+  min-height: 100vh;
+  padding: var(--xxl) 0;
+}
+
+.section.active {
+  display: block;
+  animation: sectionIn 0.5s var(--fx-ease) forwards;
+}
+
+@keyframes sectionIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Section Header ── */
+.section__header {
+  text-align: center;
+  padding: var(--xl) 0 var(--lg);
+}
+
+.section__header .mono {
+  margin-bottom: var(--sm);
+}
+
+.section__header h2 {
+  margin-bottom: var(--sm);
+}
+
+.section__header p {
+  color: var(--fx-g);
+  max-width: 32em;
+  margin: 0 auto;
+}
+
+/* ── Grid helpers ── */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: var(--lg); }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--lg); }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--lg); }
+
+/* ── Flex helpers ── */
+.flex           { display: flex; }
+.flex-col       { flex-direction: column; }
+.flex-wrap      { flex-wrap: wrap; }
+.items-center   { align-items: center; }
+.justify-between { justify-content: space-between; }
+.justify-center  { justify-content: center; }
+.gap-sm         { gap: var(--sm); }
+.gap-md         { gap: var(--md); }
+.gap-lg         { gap: var(--lg); }
+
+/* ── Sticky section pattern ── */
+.section--sticky {
+  position: relative;
+  height: 150vh;
+}
+
+.section--sticky__pin {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* ── Progress bar (top of page) ── */
+.fx-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 1001;
+  background: var(--fx-r);
+  transform-origin: left;
+  transform: scaleX(0);
+  pointer-events: none;
+}
+
+/* ── Marquee component ── */
+.fx-marquee {
+  overflow: hidden;
+  width: 100%;
+}
+
+.fx-marquee__track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+.fx-marquee__chunk {
+  display: flex;
+  flex: none;
+  align-items: center;
+  white-space: nowrap;
+}
+
+/* ── Curtain component ── */
+.fx-curtain {
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fx-curtain--dark  { background: var(--fx-k); color: var(--fx-w); }
+.fx-curtain--light { background: var(--fx-w); color: var(--fx-k); }
+
+.fx-curtain__card {
+  font-family: var(--fx-mono);
+  font-weight: 400;
+  font-size: clamp(12px, 1.2vw, 15px);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  display: flex;
+  gap: 0.9em;
+  align-items: baseline;
+  font-variant-numeric: tabular-nums;
+}
+
+.fx-curtain__num {
+  color: var(--fx-r);
+  font-weight: 700;
+}
+
+.fx-curtain--eyelid {
+  background: none;
+  display: block;
+}
+
+.fx-curtain__lid {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: calc(50% + 1px);
+  will-change: transform;
+}
+
+.fx-curtain__lid--top { top: 0; }
+.fx-curtain__lid--bot { bottom: 0; }
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .grid-3 { grid-template-columns: 1fr 1fr; }
+  .grid-4 { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 768px) {
+  :root { --nav-h: 48px; }
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  .app__content { padding-top: var(--nav-h); }
+  .section__header { padding: var(--lg) 0 var(--md); }
+  .container { padding: 0 var(--md); }
+}
+
+@media (max-width: 480px) {
+  :root { --nav-h: 44px; }
+  .section { min-height: auto; padding: var(--lg) 0; }
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .fx-line__in, .fx-char, .fx-marquee__track { transform: none !important; }
+  .section.active { animation: none; }
+}

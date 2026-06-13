@@ -1,0 +1,125 @@
+/* ═══════════════════════════════════════════
+   TAB NAVIGATION — 固定顶栏
+   黑背景下mix-blend-mode: difference显示白色
+   ═══════════════════════════════════════════ */
+
+.tab-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  background: var(--fx-w);
+  border-bottom: 1px solid var(--b-hair);
+  transition: opacity 0.6s var(--fx-ease);
+}
+
+.tab-nav__inner {
+  width: 100%;
+  max-width: var(--wide);
+  margin: 0 auto;
+  padding: 0 var(--fx-pad);
+  display: flex;
+  align-items: center;
+  gap: var(--xxl);
+}
+
+.tab-nav__brand {
+  font-family: var(--fx-sans);
+  font-weight: 900;
+  font-size: 15px;
+  letter-spacing: -0.02em;
+  color: var(--fx-k);
+  white-space: nowrap;
+  margin-right: auto;
+}
+
+.tab-nav__brand span {
+  color: var(--fx-r);
+}
+
+.tab-nav__links {
+  display: flex;
+  align-items: center;
+  gap: var(--xl);
+}
+
+.tab-nav__link {
+  position: relative;
+  font-family: var(--fx-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fx-g);
+  padding: 4px 0;
+  cursor: pointer;
+  transition: color 0.3s var(--fx-ease);
+  white-space: nowrap;
+}
+
+.tab-nav__link:hover {
+  color: var(--fx-k);
+}
+
+.tab-nav__link--active {
+  color: var(--fx-k);
+  font-weight: 700;
+}
+
+/* Underline indicator */
+.tab-nav__link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  border-radius: 1px;
+  background: var(--fx-r);
+  transform: scaleX(0);
+  transition: transform 0.3s var(--fx-ease);
+}
+
+.tab-nav__link--active::after {
+  transform: scaleX(1);
+}
+
+@media (max-width: 768px) {
+  .tab-nav__brand {
+    font-size: 13px;
+  }
+  .tab-nav__links {
+    gap: var(--md);
+  }
+  .tab-nav__link {
+    font-size: 10px;
+    letter-spacing: 0.06em;
+  }
+  .tab-nav__inner {
+    gap: var(--md);
+  }
+}
+
+@media (max-width: 480px) {
+  .tab-nav__brand {
+    font-size: 12px;
+  }
+  .tab-nav__brand span {
+    display: none; /* hide "填报" on very small screens */
+  }
+  .tab-nav__links {
+    gap: var(--sm);
+  }
+  .tab-nav__link {
+    font-size: 9px;
+    letter-spacing: 0.04em;
+    padding: 2px 0;
+  }
+  .tab-nav__inner {
+    gap: var(--sm);
+    padding: 0 var(--md);
+  }
+}

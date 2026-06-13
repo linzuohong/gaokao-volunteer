@@ -1,0 +1,34 @@
+/* ═══ CURSOR — cool blue-white ring + bright inner star ═══ */
+@media (hover: hover) and (pointer: fine) {
+  body{cursor:none}
+  a,button,input,select,textarea,.card,.uni-card,.chip,.accordion__trigger,.btn,.checklist__item,.modal-overlay,.phys-block,[role="button"]{cursor:none}
+}
+
+.cursor-outer{
+  position:fixed;pointer-events:none;z-index:99999;
+  width:26px;height:26px;
+  border:2px solid rgba(150,180,230,.5);
+  border-radius:50%;
+  transform:translate(-50%,-50%);
+  transition:width .2s ease,height .2s ease,border-color .2s ease,background .18s ease;
+}
+.cursor-inner{
+  position:fixed;pointer-events:none;z-index:99999;
+  width:5px;height:5px;
+  background:#e8eeff;
+  border-radius:50%;
+  transform:translate(-50%,-50%);
+  box-shadow:0 0 6px rgba(200,210,255,.7),0 0 16px rgba(150,170,240,.3);
+  transition:width .12s ease,height .12s ease;
+}
+
+.cursor-outer--hover{
+  width:42px;height:42px;
+  border-color:rgba(170,200,250,.7);
+  background:rgba(140,170,230,.06);
+}
+.cursor-outer--click{
+  width:16px;height:16px;
+  border-color:rgba(180,210,255,.85);
+  background:rgba(140,170,230,.14);
+}

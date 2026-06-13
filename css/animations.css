@@ -1,0 +1,192 @@
+/* ═══════════════════════════════════════════
+   ALL @KEYFRAMES — ~40 blocks
+   ═══════════════════════════════════════════ */
+
+/* ── Flow light (text gradient sweep) ── */
+@keyframes flowLight{
+  0%,100%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+}
+@keyframes flowLightFast{
+  0%,100%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+}
+
+/* ── Glow pulse ── */
+@keyframes glowPulse{
+  0%,100%{box-shadow:0 0 20px var(--gold-glow)}
+  50%{box-shadow:0 0 50px var(--gold-glow-strong),0 0 80px var(--gold-glow)}
+}
+@keyframes glowPulseSoft{
+  0%,100%{text-shadow:0 0 8px var(--gold-glow)}
+  50%{text-shadow:0 0 24px var(--gold-glow-strong),0 0 48px var(--gold-glow)}
+}
+
+/* ── Fade up ── */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(24px)}
+  to{opacity:1;transform:translateY(0)}
+}
+@keyframes fadeUpSm{
+  from{opacity:0;transform:translateY(8px)}
+  to{opacity:1;transform:translateY(0)}
+}
+@keyframes fadeIn{
+  from{opacity:0}
+  to{opacity:1}
+}
+
+/* ── Scale in ── */
+@keyframes scaleIn{
+  from{opacity:0;transform:scale(.92)}
+  to{opacity:1;transform:scale(1)}
+}
+
+/* ── Golden shimmer across element ── */
+@keyframes shimmer{
+  0%{transform:translateX(-100%) skewX(-15deg)}
+  100%{transform:translateX(200%) skewX(-15deg)}
+}
+
+/* ── Stroke draw (SVG lines) ── */
+@keyframes strokeDraw{
+  from{stroke-dashoffset:var(--line-len,1000)}
+  to{stroke-dashoffset:0}
+}
+
+/* ── Float / drift ── */
+@keyframes float{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-8px)}
+}
+@keyframes floatWide{
+  0%,100%{transform:translateY(0) translateX(0)}
+  25%{transform:translateY(-14px) translateX(6px)}
+  50%{transform:translateY(-6px) translateX(12px)}
+  75%{transform:translateY(-18px) translateX(4px)}
+}
+
+/* ── Data stream vertical scroll ── */
+@keyframes dataStream{
+  from{transform:translateY(0)}
+  to{transform:translateY(-50%)}
+}
+
+/* ── Data stream horizontal ── */
+@keyframes dataRiver{
+  from{transform:translateX(-100%)}
+  to{transform:translateX(200%)}
+}
+
+/* ── Pulse ring ── */
+@keyframes pulseRing{
+  0%{transform:scale(.8);opacity:.6}
+  100%{transform:scale(1.5);opacity:0}
+}
+
+/* ── Counter number roll ── */
+@keyframes countUp{
+  from{opacity:0;transform:translateY(12px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* ── Title converge ── */
+@keyframes titleConverge{
+  from{letter-spacing:.5em;opacity:0;filter:blur(8px)}
+  to{letter-spacing:.04em;opacity:1;filter:blur(0)}
+}
+
+/* ── Golden burst ── */
+@keyframes goldenBurst{
+  0%{transform:translate(-50%,-50%) scale(0);opacity:1}
+  60%{opacity:.6}
+  100%{transform:translate(-50%,-50%) scale(3);opacity:0}
+}
+
+/* ── Orbiting particle ── */
+@keyframes orbit{
+  from{transform:rotate(0deg) translateX(var(--orbit-r,30px)) rotate(0deg)}
+  to{transform:rotate(360deg) translateX(var(--orbit-r,30px)) rotate(-360deg)}
+}
+
+/* ── Ripple ── */
+@keyframes ripple{
+  from{transform:scale(0);opacity:.4}
+  to{transform:scale(4);opacity:0}
+}
+
+/* ── Card flip ── */
+@keyframes cardFlipIn{
+  from{transform:rotateY(90deg);opacity:0}
+  to{transform:rotateY(0);opacity:1}
+}
+
+/* ── Slide in from left / right ── */
+@keyframes slideInLeft{
+  from{transform:translateX(-40px);opacity:0}
+  to{transform:translateX(0);opacity:1}
+}
+@keyframes slideInRight{
+  from{transform:translateX(40px);opacity:0}
+  to{transform:translateX(0);opacity:1}
+}
+
+/* ── Breathing ── */
+@keyframes breathe{
+  0%,100%{opacity:.6}
+  50%{opacity:1}
+}
+
+/* ── Spin slow ── */
+@keyframes spinSlow{
+  from{transform:rotate(0deg)}
+  to{transform:rotate(360deg)}
+}
+
+/* ── Node pulse ── */
+@keyframes nodePulse{
+  0%,100%{transform:scale(1);opacity:.5}
+  50%{transform:scale(1.8);opacity:1}
+}
+
+/* ── Line trace ── */
+@keyframes lineTrace{
+  from{width:0}
+  to{width:100%}
+}
+
+/* ── Character dissolve ── */
+@keyframes charDissolve{
+  0%{opacity:0;transform:scale(.8);filter:blur(4px)}
+  20%{opacity:.08;transform:scale(1);filter:blur(0)}
+  80%{opacity:.08;transform:scale(1);filter:blur(0)}
+  100%{opacity:0;transform:scale(1.2);filter:blur(6px)}
+}
+
+/* ── Water converge ── */
+@keyframes waterConverge{
+  from{opacity:0;transform:scale(3);filter:blur(12px)}
+  to{opacity:1;transform:scale(1);filter:blur(0)}
+}
+
+/* ── Border glow sweep ── */
+@keyframes borderSweep{
+  0%{border-color:var(--b-hair)}
+  50%{border-color:var(--gold)}
+  100%{border-color:var(--b-hair)}
+}
+
+/* ── Uni section: star twinkle ── */
+@keyframes uniTwinkle{
+  0%,100%{opacity:0.2}
+  50%{opacity:1}
+}
+
+/* ═══ REDUCED MOTION ═══ */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.01ms!important;
+  }
+}

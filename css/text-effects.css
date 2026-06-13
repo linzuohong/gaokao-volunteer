@@ -1,0 +1,123 @@
+/* ═══════════════════════════════════════════
+   TEXT EFFECTS — flowing light, glow spots,
+   data streams, neural connections
+   ═══════════════════════════════════════════ */
+
+/* ── Flowing light on text ── */
+.fx-flow{
+  background:linear-gradient(120deg,
+    var(--t0) 0%,
+    var(--t0) 30%,
+    var(--gold) 45%,
+    var(--gold-light) 50%,
+    var(--gold) 55%,
+    var(--t0) 70%,
+    var(--t0) 100%
+  );
+  background-size:300% 100%;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  animation:flowLight 4s var(--ease) infinite;
+}
+.fx-flow--fast{animation-duration:2.5s}
+
+/* ── Glow spot behind text ── */
+.fx-glow{
+  position:relative;
+  text-shadow:0 0 20px var(--gold-glow);
+  animation:glowPulseSoft 3s var(--ease) infinite;
+}
+
+/* ── Shimmer sweep overlay ── */
+.fx-shimmer{
+  position:relative;overflow:hidden;
+}
+.fx-shimmer::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(105deg,
+    transparent 35%,
+    rgba(255,255,255,.25) 45%,
+    rgba(255,255,255,.45) 50%,
+    rgba(255,255,255,.25) 55%,
+    transparent 65%
+  );
+  animation:shimmer 3s var(--ease) infinite;
+  pointer-events:none;
+}
+
+/* ── Data stream background ── */
+.fx-data-bg{
+  position:relative;overflow:hidden;
+}
+.fx-data-bg::before{
+  content:'010010010111010 011010100101 101001011010 010101101001 011010010110 100101100101 010010010111 101001011010';
+  position:absolute;inset:0;
+  font-family:var(--mono);font-size:9px;
+  color:rgba(139,115,85,.06);
+  white-space:pre;line-height:1.8;
+  writing-mode:vertical-rl;
+  animation:dataStream 30s linear infinite;
+  pointer-events:none;
+  user-select:none;
+}
+
+/* ── Data river horizontal ── */
+.fx-river{
+  position:relative;overflow:hidden;
+}
+.fx-river::before{
+  content:'';
+  position:absolute;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  animation:dataRiver 6s var(--ease) infinite;
+  pointer-events:none;
+}
+
+/* ── Neural dot ── */
+.fx-dot{
+  display:inline-block;width:6px;height:6px;
+  border-radius:50%;
+  background:var(--gold);
+  box-shadow:0 0 8px var(--gold-glow),0 0 20px var(--gold-glow);
+  animation:nodePulse 3s var(--ease) infinite;
+  vertical-align:middle;margin:0 var(--sm);
+}
+
+/* ── Section heading with orbiting particles ── */
+.fx-orbiting{
+  position:relative;
+}
+.fx-orbiting .orbit-dot{
+  position:absolute;width:3px;height:3px;
+  border-radius:50%;background:var(--gold);
+  box-shadow:0 0 6px var(--gold-glow);
+  animation:orbit 6s linear infinite;
+}
+
+/* ── Connection line ── */
+.fx-conn{
+  display:block;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  transform-origin:left;
+  animation:lineTrace 1.2s var(--ease-out) forwards;
+}
+
+/* ── Card hover glow border ── */
+.fx-card-glow{
+  transition:all .4s var(--ease);
+}
+.fx-card-glow:hover{
+  box-shadow:var(--sh-md),0 0 30px var(--gold-glow);
+  border-color:var(--gold);
+  transform:translateY(-2px);
+}
+
+/* ── Number counter ── */
+.fx-counter{
+  font-family:var(--mono);font-variant-numeric:tabular-nums;
+}
+
+/* ── Stagger children (used with IntersectionObserver) ── */
+.stagger-child{opacity:0;transform:translateY(20px)}
+.stagger-child.on{animation:fadeUp .6s var(--ease-out) forwards}

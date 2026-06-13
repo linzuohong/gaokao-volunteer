@@ -1,0 +1,666 @@
+/* ═══════════════════════════════════════════
+   SECTION LAYOUTS
+   界面设计 / 填报步骤 / 高校信息
+   ═══════════════════════════════════════════ */
+
+/* ═══ SECTION 1: 界面设计 — 模拟志愿填报 ═══ */
+.mock-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: var(--lg);
+  min-height: 65vh;
+}
+
+.mock-sidebar {
+  background: var(--s1);
+  border: 1px solid var(--b-light);
+  border-radius: var(--r-md);
+  padding: var(--lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--lg);
+}
+
+.mock-sidebar__label {
+  font-family: var(--fx-mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: var(--fx-g);
+  text-transform: uppercase;
+  margin-bottom: var(--xs);
+}
+
+.mock-sidebar input,
+.mock-sidebar select {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--b-light);
+  border-radius: var(--r-sm);
+  background: var(--s0);
+  font-size: 14px;
+  color: var(--fx-k);
+  transition: border-color 0.25s var(--fx-ease);
+}
+
+.mock-sidebar input:focus,
+.mock-sidebar select:focus {
+  border-color: var(--fx-r);
+  outline: none;
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.mock-sidebar__score {
+  font-family: var(--fx-mono);
+  font-size: 28px;
+  color: var(--fx-k);
+  text-align: center;
+  padding: var(--md) 0;
+}
+
+.mock-sidebar__rank {
+  font-family: var(--fx-sans);
+  font-weight: 900;
+  font-size: 36px;
+  color: var(--fx-r);
+  text-align: center;
+}
+
+.mock-sidebar__rank-label {
+  font-family: var(--fx-mono);
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  color: var(--fx-g);
+  text-align: center;
+}
+
+.mock-main {
+  background: var(--s0);
+  border: 1px solid var(--b-light);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.mock-main__header {
+  padding: var(--md) var(--lg);
+  border-bottom: 1px solid var(--b-light);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--s1);
+}
+
+.mock-main__title {
+  font-family: var(--fx-sans);
+  font-weight: 900;
+  font-size: 16px;
+  color: var(--fx-k);
+}
+
+.mock-main__countdown {
+  font-family: var(--fx-mono);
+  font-size: 12px;
+  color: var(--warn);
+  display: flex;
+  align-items: center;
+  gap: var(--xs);
+}
+
+.mock-main__table-wrap {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0;
+}
+
+.mock-main__footer {
+  padding: var(--md) var(--lg);
+  border-top: 1px solid var(--b-light);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--s1);
+}
+
+/* Row states */
+.mock-row {
+  transition: all 0.25s var(--fx-ease);
+}
+
+.mock-row.drag-over {
+  border-top: 2px solid var(--fx-r);
+}
+
+.mock-row.dragging {
+  opacity: 0.5;
+  background: var(--s2);
+}
+
+/* Watermark */
+.mock-watermark {
+  position: absolute;
+  bottom: var(--lg);
+  right: var(--lg);
+  font-family: var(--fx-mono);
+  font-size: 72px;
+  color: rgba(0, 0, 0, 0.02);
+  pointer-events: none;
+  user-select: none;
+  letter-spacing: 0.3em;
+}
+
+/* ═══ SECTION 2: 填报步骤 ═══ */
+.steps-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--xxl);
+}
+
+/* Strategy cards */
+.strat-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--lg);
+}
+
+.strat-card {
+  text-align: center;
+  padding: var(--xl) var(--lg);
+  border-radius: var(--r-md);
+  transition: all 0.4s var(--fx-ease);
+  border: 1px solid var(--b-hair);
+  background: var(--s0);
+}
+
+.strat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--sh-md);
+  border-color: var(--b-mid);
+}
+
+.strat-card--chong { border-top: 3px solid var(--warn); }
+.strat-card--wen   { border-top: 3px solid var(--ok); }
+.strat-card--bao   { border-top: 3px solid var(--info); }
+
+.strat-card__icon {
+  font-size: clamp(28px, 4vw, 40px);
+  margin-bottom: var(--md);
+}
+
+.strat-card__title {
+  font-family: var(--fx-sans);
+  font-weight: 900;
+  font-size: 22px;
+  color: var(--fx-k);
+  margin-bottom: var(--sm);
+}
+
+.strat-card__desc {
+  font-size: 14px;
+  color: var(--fx-g);
+  line-height: 1.7;
+}
+
+/* Flow diagram */
+.flow-diagram {
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+  display: block;
+}
+
+/* Tips grid */
+.tips-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--md);
+}
+
+/* ═══ SECTION 3: 高校信息 — 全面重设计 ═══ */
+
+/* ── 搜索栏 ── */
+.uni-search-bar {
+  background: var(--s0);
+  border: 1px solid var(--b-light);
+  border-radius: var(--r-lg);
+  padding: var(--lg);
+  margin-bottom: var(--xl);
+  box-shadow: var(--sh-sm);
+  transition: border-color 0.3s var(--fx-ease), box-shadow 0.3s var(--fx-ease);
+}
+
+.uni-search-bar:focus-within {
+  border-color: var(--fx-r);
+  box-shadow: 0 0 0 4px var(--accent-glow);
+}
+
+/* ── 筛选 Chip ── */
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sm);
+  margin-bottom: var(--md);
+}
+
+.chip {
+  padding: 6px 16px;
+  border-radius: var(--r-full);
+  font-family: var(--fx-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--fx-g);
+  border: 1px solid var(--b-light);
+  cursor: pointer;
+  transition: all 0.25s var(--fx-ease);
+  white-space: nowrap;
+  background: var(--s0);
+}
+
+.chip:hover {
+  border-color: var(--fx-r);
+  color: var(--fx-k);
+}
+
+.chip--active {
+  background: var(--fx-r);
+  border-color: var(--fx-r);
+  color: var(--fx-w);
+}
+
+/* ── 视图切换 ── */
+.uni-view-toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--xs);
+  margin-left: auto;
+}
+
+.uni-view-btn {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--b-light);
+  border-radius: var(--r-sm);
+  color: var(--fx-g);
+  cursor: pointer;
+  transition: all 0.25s var(--fx-ease);
+  background: var(--s0);
+}
+
+.uni-view-btn:hover,
+.uni-view-btn--active {
+  border-color: var(--fx-k);
+  color: var(--fx-k);
+}
+
+.uni-view-btn--active {
+  background: var(--fx-k);
+  color: var(--fx-w);
+  border-color: var(--fx-k);
+}
+
+/* ── Physics drop area (Matter.js 卡片开场) ── */
+.uni-physics-stage {
+  position: relative;
+  height: 55vh;
+  min-height: 380px;
+  margin-bottom: var(--xxl);
+  border: 1px solid var(--b-hair);
+  border-radius: var(--r-lg);
+  background: linear-gradient(180deg, #d8d8e4 0%, #c8c8d6 50%, #b8b8c8 100%);
+  overflow: hidden;
+  cursor: crosshair;
+}
+
+.uni-physics-stage__hint {
+  position: absolute;
+  bottom: var(--md);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  font-family: var(--fx-mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  color: var(--fx-g);
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+/* ── 卡片网格 ── */
+.uni-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: var(--lg);
+}
+
+.uni-grid--list {
+  grid-template-columns: 1fr;
+}
+
+/* ── 高校卡片 ── */
+.uni-card {
+  position: relative;
+  background: var(--s0);
+  border: 1px solid var(--b-light);
+  border-radius: var(--r-md);
+  padding: var(--lg);
+  cursor: pointer;
+  transition: all 0.35s var(--fx-ease);
+  overflow: hidden;
+}
+
+.uni-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--fx-r);
+  opacity: 0;
+  transition: opacity 0.35s var(--fx-ease);
+  z-index: 0;
+}
+
+.uni-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--sh-md);
+  border-color: var(--fx-r);
+}
+
+.uni-card:hover::before {
+  opacity: 0.02;
+}
+
+/* Compare checkbox */
+.uni-card__compare {
+  position: absolute;
+  top: var(--md);
+  right: var(--md);
+  z-index: 2;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--b-mid);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--s0);
+  transition: all 0.25s var(--fx-ease);
+  cursor: pointer;
+}
+
+.uni-card__compare:hover {
+  border-color: var(--fx-r);
+}
+
+.uni-card__compare--checked {
+  background: var(--fx-r);
+  border-color: var(--fx-r);
+}
+
+.uni-card__compare--checked::after {
+  content: '✓';
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* Card content */
+.uni-card__name {
+  position: relative;
+  z-index: 1;
+  font-family: var(--fx-sans);
+  font-weight: 900;
+  font-size: 20px;
+  color: var(--fx-k);
+  margin-bottom: var(--sm);
+}
+
+.uni-card__badges {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  gap: var(--xs);
+  margin-bottom: var(--sm);
+  flex-wrap: wrap;
+}
+
+.uni-card__meta {
+  position: relative;
+  z-index: 1;
+  font-size: 13px;
+  color: var(--fx-g);
+  margin-bottom: var(--md);
+}
+
+.uni-card__stats {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: var(--sm);
+  text-align: center;
+  padding: var(--sm) 0;
+  border-top: 1px solid var(--b-hair);
+}
+
+.uni-card__stat-val {
+  font-family: var(--fx-sans);
+  font-weight: 900;
+  font-size: 18px;
+  color: var(--fx-r);
+}
+
+.uni-card__stat-label {
+  font-family: var(--fx-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--fx-g);
+  margin-top: 2px;
+  text-transform: uppercase;
+}
+
+/* ── List view variant ── */
+.uni-grid--list .uni-card {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  align-items: center;
+  gap: var(--lg);
+  padding: var(--md) var(--lg);
+}
+
+.uni-grid--list .uni-card__stats {
+  border-top: none;
+  padding: 0;
+}
+
+/* ── 详情弹层 Tabs ── */
+.detail-tabs {
+  display: flex;
+  gap: var(--xs);
+  border-bottom: 1px solid var(--b-light);
+  margin-bottom: var(--lg);
+}
+
+.detail-tab {
+  padding: 8px 20px;
+  font-family: var(--fx-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--fx-g);
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.25s var(--fx-ease);
+  text-transform: uppercase;
+}
+
+.detail-tab:hover {
+  color: var(--fx-k);
+}
+
+.detail-tab.active {
+  color: var(--fx-k);
+  border-bottom-color: var(--fx-r);
+}
+
+.detail-panel {
+  display: none;
+}
+
+.detail-panel.active {
+  display: block;
+}
+
+/* ── 对比栏 ── */
+.uni-compare-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  background: var(--fx-k);
+  color: var(--fx-w);
+  padding: var(--md) var(--fx-pad);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transform: translateY(100%);
+  transition: transform 0.4s var(--fx-ease);
+}
+
+.uni-compare-bar--visible {
+  transform: translateY(0);
+}
+
+.uni-compare-bar__count {
+  font-family: var(--fx-mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+}
+
+.uni-compare-bar__actions {
+  display: flex;
+  gap: var(--md);
+}
+
+/* ═══ RESPONSIVE ═══ */
+@media (max-width: 1024px) {
+  .mock-layout   { grid-template-columns: 1fr; }
+  .strat-row     { grid-template-columns: 1fr; }
+  .tips-grid     { grid-template-columns: 1fr; }
+  .uni-grid      { grid-template-columns: 1fr; }
+  .mock-watermark { font-size: 48px; }
+}
+
+@media (max-width: 768px) {
+  .mock-sidebar  { padding: var(--md); }
+  .mock-layout    { min-height: auto; }
+  .mock-main__header { flex-direction: column; gap: var(--sm); align-items: flex-start; }
+  .mock-main__footer { flex-direction: column; gap: var(--md); }
+  .mock-main__footer .btn { width: 100%; }
+
+  /* Table horizontal scroll on mobile */
+  .mock-main__table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .tbl { min-width: 600px; font-size: 12px; }
+  .tbl th, .tbl td { padding: 8px 10px; }
+
+  /* Strategy */
+  .strat-card { padding: var(--lg) var(--md); }
+  .strat-card__title { font-size: 18px; }
+
+  /* Flow diagram */
+  .flow-diagram { max-width: 100%; }
+
+  /* Tips */
+  .tips-grid .card { padding: var(--md); }
+
+  /* Uni section */
+  .uni-physics-stage {
+    height: 40vh;
+    min-height: 280px;
+  }
+  .uni-card { padding: var(--md); }
+  .uni-card__name { font-size: 17px; }
+  .uni-card__stats { gap: var(--xs); }
+  .uni-card__stat-val { font-size: 15px; }
+
+  .uni-grid--list .uni-card {
+    grid-template-columns: 1fr;
+    gap: var(--sm);
+  }
+
+  /* Compare bar */
+  .uni-compare-bar {
+    flex-direction: column;
+    gap: var(--sm);
+    padding: var(--sm) var(--md);
+  }
+
+  /* Modal */
+  .modal { padding: var(--lg); max-height: 90vh; }
+
+  /* Section header */
+  .section__header { padding: var(--lg) 0 var(--md); }
+  .section__header h2 { font-size: clamp(24px, 8vw, 40px); }
+
+  /* Accordion */
+  .accordion__trigger { font-size: 14px; padding: var(--sm) var(--md); }
+
+  /* Checkbox in sidebar */
+  .mock-sidebar input, .mock-sidebar select { font-size: 16px; } /* prevent iOS zoom */
+
+  /* Chip filter wrap */
+  .chip-row { gap: var(--xs); }
+  .chip { padding: 5px 12px; font-size: 10px; }
+}
+
+/* ══════════════════════════════════════
+   SECTION 3 OVERRIDES — 银河方块掉落
+   (overrides earlier rules via cascade)
+   ══════════════════════════════════════ */
+
+/* ── 搜索栏 margin 减小 ── */
+.uni-search-bar {
+  margin-bottom: var(--md);
+}
+
+/* ── 物理舞台 — 银色渐变背景 ── */
+.uni-physics-stage {
+  height: 62vh;
+  min-height: 420px;
+  background: linear-gradient(180deg, #e8e8ee 0%, #d8d8e4 40%, #c8c8d8 100%);
+}
+
+.uni-physics-stage__hint {
+  color: var(--fx-g);
+  text-shadow: none;
+}
+
+/* ── 网格/卡片/对比栏等旧元素隐藏（新方案走Canvas）── */
+.uni-grid,
+.uni-card,
+.uni-card__compare,
+.uni-card__name,
+.uni-card__badges,
+.uni-card__meta,
+.uni-card__stats,
+.uni-card__stat-val,
+.uni-card__stat-label,
+.uni-view-toggle,
+.uni-view-btn,
+.uni-compare-bar,
+.uni-compare-bar__count,
+.uni-compare-bar__actions,
+.detail-tabs,
+.detail-tab,
+.detail-panel {
+  /* kept in file for backwards compat; not rendered by new JS */
+}
+
+/* ── Responsive: 物理舞台高度 ── */
+@media (max-width: 768px) {
+  .uni-physics-stage {
+    height: 45vh;
+    min-height: 300px;
+  }
+}

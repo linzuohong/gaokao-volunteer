@@ -1,0 +1,191 @@
+/* ═══════════════════════════════════════════
+   TYPOGRAPHY — 三层字体分级
+   Display (sans 900 大号) / Label (mono 11px) / Body
+   ═══════════════════════════════════════════ */
+
+/* ── Display: 大标题专用 ── */
+.fx-display {
+  font-family: var(--fx-sans);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 0.98;
+  margin: 0;
+}
+
+/* ── Label: 标签/元信息 ── */
+.fx-label {
+  font-family: var(--fx-mono);
+  font-weight: 400;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  line-height: 1.7;
+  margin: 0;
+}
+.fx-label--dim {
+  color: var(--fx-g);
+}
+
+/* ── Num: 等宽数字 ── */
+.fx-num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Chapter number accent ── */
+.fx-chapnum {
+  color: var(--fx-r);
+}
+
+/* ── Blend mode for overlay elements ── */
+.fx-blend {
+  color: var(--fx-w);
+  mix-blend-mode: difference;
+}
+
+/* ── Screen reader only ── */
+.fx-sr {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ── JS-dependent visibility ── */
+.fx-js .fx-hide {
+  visibility: hidden;
+}
+.fx-reduced .fx-hide {
+  visibility: visible;
+}
+
+/* ── Text split atoms ── */
+.fx-line {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+.fx-line__in {
+  display: block;
+  will-change: transform;
+}
+.fx-word {
+  display: inline-block;
+  white-space: nowrap;
+}
+.fx-char {
+  display: inline-block;
+  will-change: transform;
+}
+
+/* ── Headings ── */
+h1 {
+  font-family: var(--fx-sans);
+  font-weight: 900;
+  font-size: clamp(44px, 8vw, 120px);
+  letter-spacing: -0.04em;
+  line-height: 0.98;
+  color: var(--fx-k);
+}
+
+h2 {
+  font-family: var(--fx-sans);
+  font-weight: 900;
+  font-size: clamp(32px, 5vw, 72px);
+  letter-spacing: -0.04em;
+  line-height: 1.04;
+  color: var(--fx-k);
+}
+
+h3 {
+  font-family: var(--fx-sans);
+  font-weight: 900;
+  font-size: clamp(20px, 2.8vw, 36px);
+  letter-spacing: -0.02em;
+  line-height: 1.12;
+  color: var(--fx-k);
+}
+
+p {
+  font-size: clamp(15px, 1.4vw, 17px);
+  line-height: 1.75;
+  color: var(--t1);
+}
+
+.mono {
+  font-family: var(--fx-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--fx-g);
+  text-transform: uppercase;
+}
+
+.disp {
+  font-family: var(--fx-sans);
+  font-weight: 900;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--b-mid);
+  border-radius: var(--r-full);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--fx-g);
+}
+
+/* ── Focus ── */
+:focus-visible {
+  outline: 2px solid var(--fx-r);
+  outline-offset: 2px;
+  border-radius: var(--r-sm);
+}
+
+/* ── Mobile typography ── */
+@media (max-width: 768px) {
+  h1 { font-size: clamp(32px, 10vw, 56px); }
+  h2 { font-size: clamp(24px, 7vw, 40px); }
+  h3 { font-size: clamp(18px, 5vw, 28px); }
+  p  { font-size: 15px; }
+  .section { padding: var(--xl) 0; }
+}
+
+/* ── Touch-friendly tap targets ── */
+@media (hover: none) and (pointer: coarse) {
+  .btn, .accordion__trigger, .chip, .tab-nav__link {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .checklist__item {
+    min-height: 44px;
+  }
+}
+
+/* ── Utilities ── */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+.hidden {
+  display: none !important;
+}
+.no-scroll {
+  overflow: hidden;
+}
