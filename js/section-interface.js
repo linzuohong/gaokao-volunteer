@@ -128,36 +128,85 @@
   }
 
   // ═══ Build mock entries based on score ═══
+  // 基于高校真实 minRank 数据做冲/稳/保匹配
   function buildMockEntries(userRank) {
     if (!userRank) return [];
-    return realAdmissions
-      .map(entry => {
-        const diff = userRank - entry.rank;
-        // userRank < entry.rank → user is better (more competitive)
-        // userRank > entry.rank → user is worse (need to reach)
-        const pct = entry.rank > 0 ? diff / entry.rank : 0;
-        let risk;
-        if (pct > 0.08) risk = null;              // way out of reach, skip
-        else if (pct > 0) risk = 'chong';          // user slightly worse → 冲
-        else if (pct > -0.15) risk = 'wen';        // close match → 稳
-        else risk = 'bao';                          // user much better → 保
 
+    // 优先用 universityData（100+ 高校），其次用 realAdmissions
+    var uniSource = (window.universityData && window.universityData.length > 0)
+      ? window.universityData
+      : [];
+
+    if (uniSource.length > 0) {
+      // ── 从 universityData 匹配 ──
+      return uniSource
+        .filter(function(u) { return u.minRank && parseInt(u.minRank) > 0; })
+        .map(function(u) {
+          var entryRank = parseInt(u.minRank);
+          var diff = userRank - entryRank;  // 负=你更好, 正=你需要追
+
+          // 冲：你的位次比该校低 0%~25%（你需要冲刺）
+          // 稳：你的位次在该校 ±15% 范围内
+          // 保：你的位次比该校高 15%+（你稳上）
+          var ratio = entryRank > 0 ? diff / entryRank : 0;
+          var risk;
+          if (ratio > 0.25) risk = null;          // 差距太大，不推荐
+          else if (ratio > 0) risk = 'chong';      // 冲刺
+          else if (ratio > -0.18) risk = 'wen';    // 稳妥
+          else risk = 'bao';                       // 保底
+
+          if (!risk) return null;
+
+          return {
+            name: u.name,
+            score: '—',
+            rank: entryRank,
+            risk: risk,
+            riskLabel: risk === 'chong' ? '冲' : risk === 'wen' ? '稳' : '保',
+            probability: risk === 'chong' ? '冲刺' : risk === 'wen' ? '适中' : '稳妥',
+            location: u.location,
+            type: u.type,
+            level: u.level || [],
+          };
+        })
+        .filter(function(e) { return e !== null; })
+        .sort(function(a, b) {
+          var order = { chong: 0, wen: 1, bao: 2 };
+          if (order[a.risk] !== order[b.risk]) return order[a.risk] - order[b.risk];
+          return a.rank - b.rank;
+        })
+        .slice(0, 30);
+    }
+
+    // ── Fallback: 原始 realAdmissions 数据 ──
+    return realAdmissions
+      .map(function(entry) {
+        var diff = userRank - entry.rank;
+        var pct = entry.rank > 0 ? diff / entry.rank : 0;
+        var risk;
+        if (pct > 0.25) risk = null;
+        else if (pct > 0) risk = 'chong';
+        else if (pct > -0.18) risk = 'wen';
+        else risk = 'bao';
         return {
-          name: `${entry.name}-${entry.group}`,
+          name: entry.name + '-' + entry.group,
           score: entry.score,
           rank: entry.rank,
           risk: risk,
           riskLabel: risk === 'chong' ? '冲' : risk === 'wen' ? '稳' : risk === 'bao' ? '保' : '—',
-          probability: risk === 'chong' ? '较低' : risk === 'wen' ? '适中' : risk === 'bao' ? '较高' : '—',
+          probability: risk === 'chong' ? '冲刺' : risk === 'wen' ? '适中' : risk === 'bao' ? '稳妥' : '—',
+          location: '',
+          type: '',
+          level: [],
         };
       })
-      .filter(e => e.risk !== null) // only show relevant entries
-      .sort((a, b) => {
-        const riskOrder = { chong: 0, wen: 1, bao: 2 };
-        if (riskOrder[a.risk] !== riskOrder[b.risk]) return riskOrder[a.risk] - riskOrder[b.risk];
+      .filter(function(e) { return e.risk !== null; })
+      .sort(function(a, b) {
+        var order = { chong: 0, wen: 1, bao: 2 };
+        if (order[a.risk] !== order[b.risk]) return order[a.risk] - order[b.risk];
         return a.rank - b.rank;
       })
-      .slice(0, 30); // limit to 30 results
+      .slice(0, 30);
   }
 
   let currentEntries = [];
@@ -173,7 +222,7 @@
         <td style="color:var(--t2);width:40px;font-size:12px">${i+1}</td>
         <td>
           <div style="font-weight:500;color:var(--t0)">${entry.name}</div>
-          <div style="font-size:11px;color:var(--t2)">2024投档线: ${entry.score}分 | 位次: ${entry.rank.toLocaleString()}</div>
+          <div style="font-size:11px;color:var(--t2)">${entry.location ? entry.location + ' · ' : ''}${entry.type||''} | 位次: ${entry.rank.toLocaleString()}</div>
         </td>
         <td><span class="badge badge--silver">${entry.rank.toLocaleString()}</span></td>
         <td>
@@ -213,8 +262,10 @@
   }
 
   // ═══ Score input → auto rank + build entries ═══
-  let dragonFired = false;
+  let lastManualScore = 0;
   scoreInput.addEventListener('input', () => {
+    var curScore = parseInt(scoreInput.value);
+    if (curScore && curScore !== lastManualScore + 20) { hasEaten = false; lastManualScore = curScore; }
     const score = parseInt(scoreInput.value);
     if (score && score >= 200 && score <= 750) {
       const rank = scoreToRank(score);
@@ -232,10 +283,10 @@
     renderMockTable();
   });
 
-  // ═══ 奶龙吃分 +20 带提示 ═══
+  // ═══ 宋昭捷加分 +20 带提示 ═══
   var hintEl = document.createElement('div');
   hintEl.style.cssText = 'margin-top:8px;padding:10px 14px;background:var(--accent-glow);border-radius:var(--r-sm);font-size:13px;color:var(--fx-r);font-weight:600;line-height:1.6;opacity:0;transition:opacity .35s ease;display:none;';
-  hintEl.innerHTML = '🐉 <strong>奶龙吃掉了你的分数！</strong><br><span style="font-size:12px;color:var(--t1);">你实际的分数一定会比你预估的分数低 20 分，已自动 +20</span>';
+  hintEl.innerHTML = '🎓 <strong>宋昭捷说：</strong>你的分数一定会比你估的分数高 20 分<br><span style="font-size:11px;color:var(--t1);">系统已自动 +20，右侧匹配已更新</span>';
   scoreInput.parentNode.appendChild(hintEl);
 
   var hintTimer = null;
@@ -253,7 +304,7 @@
       setTimeout(function () { hintEl.style.display = 'none'; }, 350);
     }, 5000);
 
-    // Add 20 points (奶龙吃分)
+    // Add 20 points (宋昭捷加分)
     if (!hasEaten && score <= 730) {
       hasEaten = true;
       var newScore = Math.min(score + 20, 750);
