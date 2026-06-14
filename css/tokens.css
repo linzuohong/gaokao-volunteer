@@ -37,14 +37,14 @@
   --d-glacial: 1800ms;
 
   /* ═══ SHADOWS ═══ */
-  --sh-sm: 0 1px 4px rgba(0, 0, 0, 0.04);
-  --sh-md: 0 6px 24px rgba(0, 0, 0, 0.07);
-  --sh-lg: 0 14px 48px rgba(0, 0, 0, 0.10);
+  --sh-sm: none;
+  --sh-md: none;
+  --sh-lg: none;
 
   /* ═══ BORDERS ═══ */
-  --b-hair: rgba(0, 0, 0, 0.06);
-  --b-light: rgba(0, 0, 0, 0.10);
-  --b-mid: rgba(0, 0, 0, 0.18);
+  --b-hair: rgba(255, 255, 255, 0.08);
+  --b-light: rgba(255, 255, 255, 0.14);
+  --b-mid: rgba(255, 255, 255, 0.22);
 
   /* ═══ RADII ═══ */
   --r-sm: 6px;
@@ -57,22 +57,22 @@
   --wide: clamp(880px, 90vw, 1280px);
 
   /* ═══ LEGACY ALIASES (向后兼容) ═══ */
-  --bg: #d4d4e0;
-  --t0: var(--fx-k);
-  --t1: #3a3a3a;
+  --bg: #000000;
+  --t0: var(--fx-w);
+  --t1: #cccccc;
   --t2: var(--fx-g);
-  --t3: #b0b0b0;
-  --t-inv: var(--fx-w);
+  --t3: #555555;
+  --t-inv: var(--fx-k);
   --accent: var(--fx-r);
-  --accent-glow: rgba(196, 30, 58, 0.12);
-  --ok: #3a8a4a;
-  --warn: #c09040;
-  --bad: #b05040;
-  --info: #4a6a8a;
-  --s0: #FFFFFF;
-  --s1: #F8F8F9;
-  --s2: #F0F0F2;
-  --s3: #E8E8EB;
+  --accent-glow: rgba(196, 30, 58, 0.18);
+  --ok: #4a9a5a;
+  --warn: #d0a050;
+  --bad: #c06050;
+  --info: #6a8aaa;
+  --s0: #000000;
+  --s1: #0a0a0a;
+  --s2: #111111;
+  --s3: #1a1a1a;
   --gold: var(--fx-r);
   --gold-dark: #9e162e;
   --gold-light: #e0485a;
@@ -84,7 +84,7 @@
   --sans: var(--fx-sans);
   --serif: var(--fx-serif);
   --mono: var(--fx-mono);
-  --sh-md: var(--sh-md, 0 6px 24px rgba(0,0,0,0.07));
-  --sh-lg: var(--sh-lg, 0 14px 48px rgba(0,0,0,0.10));
-  --sh-sm: var(--sh-sm, 0 1px 4px rgba(0,0,0,0.04));
+  --sh-md: none;
+  --sh-lg: none;
+  --sh-sm: none;
 }

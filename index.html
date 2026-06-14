@@ -2,506 +2,340 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>高考志愿填报指南</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>高考志愿填报指南 · 你的志愿，你的未来</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23000'/%3E%3Ccircle cx='32' cy='28' r='20' fill='none' stroke='%23fff' stroke-width='5'/%3E%3Crect x='23' y='17' width='18' height='22' fill='none' stroke='%23fff' stroke-width='3.5'/%3E%3C/svg%3E">
+<script>document.documentElement.className += ' fx-js';</script>
 
 <!-- GSAP + ScrollTrigger + Lenis -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
-<!-- Matter.js physics engine -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
 
-<!-- CSS -->
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@900&family=Noto+Sans+SC:wght@400;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
 <link rel="stylesheet" href="css/tokens.css">
 <link rel="stylesheet" href="css/reset.css">
 <link rel="stylesheet" href="css/base.css">
-<link rel="stylesheet" href="css/animations.css">
-<link rel="stylesheet" href="css/layout.css">
-<link rel="stylesheet" href="css/tab-nav.css">
-<link rel="stylesheet" href="css/sections.css">
-<link rel="stylesheet" href="css/components.css">
-<link rel="stylesheet" href="css/intro.css">
-<link rel="stylesheet" href="css/particles.css">
-<link rel="stylesheet" href="css/text-effects.css">
-<link rel="stylesheet" href="css/cursor.css">
+<link rel="stylesheet" href="css/cinema.css">
+
+<style>
+/* chrome 初始态 */
+.v2-chrome{opacity:0;transition:opacity .6s cubic-bezier(.16,1,.3,1);}
+.v2-chrome.is-on{opacity:1;}
+html,body{overflow-x:clip;}
+</style>
 </head>
-<body class="no-scroll">
+<body class="fx-body">
 
-<!-- ═══════════════ PARTICLE CANVAS — 金属银背景 ═══════════════ -->
-<canvas id="particleCanvas"></canvas>
-
-<!-- ═══════════════ INTRO — 红幕开场仪式 ═══════════════ -->
-<div class="intro">
-  <div class="intro__lid intro__lid--top"></div>
-  <div class="intro__lid intro__lid--bot"></div>
-  <div class="intro__sparks"></div>
-  <div class="intro__tag">江西省高考志愿填报指南 · 2026</div>
-  <div class="intro__word">高考志愿填报指南</div>
-  <div class="intro__count">000</div>
-  <div class="intro__sub">江西省</div>
-  <button class="intro__skip" id="introSkip">跳过动画</button>
+<!-- ====== Header Chrome ====== -->
+<header class="v2-chrome v2-header fx-blend" data-fx-chrome>
+  <p class="v2-header__brand">GAOKAO · VOLUNTEER</p>
+  <p class="fx-label">为你的未来，做一次认真的选择</p>
+</header>
+<div class="v2-chrome v2-progress fx-blend fx-label fx-num" data-fx-chrome>
+  <span id="progressNum">000</span>
 </div>
 
-<!-- ═══════════════ TOP NAVIGATION ═══════════════ -->
-<nav class="tab-nav" style="opacity:0">
-  <div class="tab-nav__inner">
-    <a class="tab-nav__brand" href="#">
-      江西志愿<span>填报</span>指南
-    </a>
-    <div class="tab-nav__links">
-      <button class="tab-nav__link tab-nav__link--active" data-tab="interface">界面设计</button>
-      <button class="tab-nav__link" data-tab="steps">填报步骤</button>
-      <button class="tab-nav__link" data-tab="universities">高校信息</button>
+<!-- ====== 序章 · 开幕红幕 ====== -->
+<section class="m-intro" id="intro">
+  <div class="m-intro__red">
+    <div class="m-intro__red-lid m-intro__red-lid--top"></div>
+    <div class="m-intro__red-lid m-intro__red-lid--bot"></div>
+    <p class="m-intro__word">你的志愿，你的未来</p>
+  </div>
+  <div class="m-intro__count fx-num" id="introCount">000</div>
+</section>
+
+<main class="v2-main">
+
+<!-- ====== 品牌区 · 高考志愿 ====== -->
+<section class="chap-brand" id="brand">
+  <div class="chap-brand__stage">
+    <div class="chap-brand__veil" aria-hidden="true"></div>
+    <div class="chap-brand__lockup">
+      <div class="chap-brand__row" aria-label="高考志愿">
+        <span class="chap-brand__ch">高</span>
+        <span class="chap-brand__ch">考</span>
+        <span class="chap-brand__ch">志</span>
+        <span class="chap-brand__ch">愿</span>
+      </div>
+      <div class="chap-brand__line" aria-hidden="true"></div>
+      <div class="chap-brand__subwrap"><p class="chap-brand__sub">你的志愿，你的未来</p></div>
+      <p class="chap-brand__mono">2026 · COLLEGE APPLICATION GUIDE</p>
     </div>
   </div>
-</nav>
+</section>
 
-<!-- ═══════════════ APP CONTENT ═══════════════ -->
-<div class="app">
-  <div class="app__content" style="opacity:0">
-
-    <!-- ═══════════ SECTION 1: 界面设计 ═══════════ -->
-    <section class="section active" id="section-interface">
-      <div class="container">
-        <div class="section__header">
-          <div class="mono"><span class="fx-chapnum">SECTION 01</span></div>
-          <h2>模拟志愿填报系统</h2>
-          <p>提前熟悉真实填报界面，掌握每一步操作流程</p>
+<!-- ====== 分数预估填报 ====== -->
+<section class="chap-estimate" id="estimate">
+  <div class="chap-estimate__pin">
+    <header class="chap-estimate__head">
+      <p class="chap-estimate__kicker fx-label fx-hide"><span class="fx-chapnum">·</span> — 分数预估</p>
+      <h2 class="chap-estimate__title fx-hide">输入你的分数</h2>
+      <p class="chap-estimate__sub fx-hide">看看你能去哪。</p>
+    </header>
+    <div class="chap-estimate__body">
+      <!-- 左侧：学生信息 + 输入 -->
+      <div class="chap-estimate__left">
+        <div class="chap-estimate__student">
+          <div class="chap-estimate__avatar" aria-hidden="true">宋</div>
+          <div>
+            <div class="chap-estimate__student-name">示例考生 · 宋昭捷</div>
+            <div class="chap-estimate__student-meta fx-label">准考证号 3601****0328 · 物理类</div>
+          </div>
+          <div class="chap-estimate__student-score">
+            <div class="chap-estimate__student-score-val">750</div>
+            <div class="chap-estimate__student-score-label fx-label">高考分数</div>
+          </div>
         </div>
-
-        <div class="mock-layout" style="position:relative">
-          <!-- Sidebar -->
-          <div class="mock-sidebar">
-            <div style="background:var(--s2);border-radius:var(--r-md);padding:var(--md);margin-bottom:var(--sm)">
-              <div class="mock-sidebar__label">示例考生</div>
-              <div style="display:flex;align-items:center;gap:var(--md)">
-                <div style="width:44px;height:44px;border-radius:50%;background:var(--fx-r);display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;font-weight:700">宋</div>
-                <div>
-                  <div style="font-weight:600;color:var(--t0)">宋昭捷</div>
-                  <div style="font-size:12px;color:var(--t2)">准考证号: 3601****0328</div>
-                </div>
-              </div>
-              <div style="margin-top:var(--sm);display:flex;gap:var(--md)">
-                <div style="flex:1;text-align:center;background:var(--s0);border-radius:var(--r-sm);padding:8px">
-                  <div style="font-family:var(--fx-mono);font-size:22px;color:var(--fx-r);font-weight:700">750</div>
-                  <div style="font-size:10px;color:var(--t2)">目标分数</div>
-                </div>
-                <div style="flex:1;text-align:center;background:var(--s0);border-radius:var(--r-sm);padding:8px">
-                  <div style="font-family:var(--fx-mono);font-size:22px;color:var(--ok);font-weight:700">物理类</div>
-                  <div style="font-size:10px;color:var(--t2)">首选科目</div>
-                </div>
-              </div>
-            </div>
-            <div>
-              <div class="mock-sidebar__label">考生省份</div>
-              <select id="mock-province">
-                <option value="">请选择省份</option>
-                <option value="江西" selected>江西（默认）</option>
-                <optgroup label="专业+院校模式（6省）">
-                  <option value="浙江">浙江</option><option value="山东">山东</option>
-                  <option value="河北">河北</option><option value="辽宁">辽宁</option>
-                  <option value="重庆">重庆</option><option value="贵州">贵州</option>
-                </optgroup>
-                <optgroup label="院校专业组模式（25省）">
-                  <option value="北京">北京</option><option value="天津">天津</option>
-                  <option value="上海">上海</option><option value="广东">广东</option>
-                  <option value="江苏">江苏</option><option value="湖北">湖北</option>
-                  <option value="湖南">湖南</option><option value="福建">福建</option>
-                  <option value="安徽">安徽</option><option value="四川">四川</option>
-                  <option value="河南">河南</option><option value="陕西">陕西</option>
-                  <option value="山西">山西</option><option value="云南">云南</option>
-                  <option value="海南">海南</option><option value="甘肃">甘肃</option>
-                  <option value="黑龙江">黑龙江</option><option value="吉林">吉林</option>
-                  <option value="广西">广西</option><option value="内蒙古">内蒙古</option>
-                  <option value="青海">青海</option><option value="宁夏">宁夏</option>
-                  <option value="新疆">新疆</option><option value="西藏">西藏</option>
-                </optgroup>
-              </select>
-            </div>
-            <div>
-              <div class="mock-sidebar__label">填报模式</div>
-              <div id="mock-mode" style="font-size:14px;color:var(--t2)">请选择省份</div>
-            </div>
-            <div>
-              <div class="mock-sidebar__label">高考分数</div>
-              <input type="number" id="mock-score" placeholder="输入分数" min="200" max="750">
-            </div>
-            <div style="background:var(--s2);border-radius:var(--r-md);padding:var(--md)">
-              <div class="mock-sidebar__label">预计全省位次</div>
-              <div class="mock-sidebar__rank" id="mock-rank">—</div>
-              <div class="mock-sidebar__rank-label">位次越小排名越靠前</div>
-            </div>
-            <div style="margin-top:auto">
-              <div class="mock-sidebar__label">志愿梯度分布</div>
-              <div style="display:flex;gap:4px;height:8px;border-radius:4px;overflow:hidden">
-                <div style="flex:3;background:var(--warn)"></div>
-                <div style="flex:5;background:var(--ok)"></div>
-                <div style="flex:2;background:var(--info)"></div>
-              </div>
-              <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--t2);margin-top:4px">
-                <span>冲 30%</span><span>稳 50%</span><span>保 20%</span>
-              </div>
-            </div>
+        <div class="chap-estimate__controls">
+          <div class="chap-estimate__field">
+            <label class="chap-estimate__label fx-label" for="estProvince">省份</label>
+            <select class="chap-estimate__select" id="estProvince">
+              <option value="江西" selected>江西</option>
+              <option value="广东">广东</option>
+              <option value="江苏">江苏</option>
+              <option value="湖北">湖北</option>
+              <option value="湖南">湖南</option>
+              <option value="四川">四川</option>
+              <option value="河南">河南</option>
+              <option value="山东">山东</option>
+              <option value="浙江">浙江</option>
+              <option value="河北">河北</option>
+              <option value="福建">福建</option>
+              <option value="安徽">安徽</option>
+            </select>
           </div>
-
-          <!-- Main table -->
-          <div class="mock-main">
-            <div class="mock-main__header">
-              <span class="mock-main__title">我的志愿表</span>
-              <span class="mock-main__countdown" id="mock-countdown">⏱ 加载中...</span>
-            </div>
-            <div class="mock-main__table-wrap fx-data-bg">
-              <table class="tbl">
-                <thead>
-                  <tr>
-                    <th style="width:40px">序号</th>
-                    <th>院校 / 专业组 / 专业</th>
-                    <th>近3年位次</th>
-                    <th>风险等级</th>
-                    <th style="width:60px">操作</th>
-                  </tr>
-                </thead>
-                <tbody id="mock-table-body"></tbody>
-              </table>
-            </div>
-            <div class="mock-main__footer">
-              <span style="font-size:13px;color:var(--t2)">拖拽行可调整志愿顺序</span>
-              <button class="btn btn--primary" id="mock-submit">模拟提交志愿</button>
-            </div>
+          <div class="chap-estimate__field">
+            <label class="chap-estimate__label fx-label" for="estSubject">首选科目</label>
+            <select class="chap-estimate__select" id="estSubject">
+              <option value="物理类" selected>物理类</option>
+              <option value="历史类">历史类</option>
+            </select>
           </div>
-
-          <div class="mock-watermark">模拟界面</div>
+          <div class="chap-estimate__field">
+            <label class="chap-estimate__label fx-label" for="estScore">你的高考分数</label>
+            <input type="number" class="chap-estimate__input" id="estScore"
+                   placeholder="输入分数" min="200" max="750" value="" autocomplete="off">
+          </div>
+          <button class="chap-estimate__btn" id="estBtn" type="button">查询匹配院校</button>
+        </div>
+        <div class="chap-estimate__rank" id="estRank" style="display:none">
+          <div class="chap-estimate__rank-label fx-label">预计全省位次</div>
+          <div class="chap-estimate__rank-val" id="estRankVal">—</div>
+          <div class="chap-estimate__rank-note">位次越小排名越靠前</div>
         </div>
       </div>
-    </section>
-
-    <!-- ═══════════ SECTION 2: 填报步骤 ═══════════ -->
-    <section class="section" id="section-steps">
-      <div class="container container--narrow">
-        <div class="section__header">
-          <div class="mono"><span class="fx-chapnum">SECTION 02</span></div>
-          <h2>志愿填报全流程</h2>
-          <p>从出分到录取，每一步都有据可依</p>
+      <!-- 右侧：匹配结果 -->
+      <div class="chap-estimate__right">
+        <div class="chap-estimate__result-header">
+          <span class="chap-estimate__result-title fx-label">匹配院校</span>
+          <span class="chap-estimate__result-summary" id="estSummary"></span>
         </div>
-
-        <div class="steps-grid">
-
-          <!-- 1. Timeline -->
-          <div class="card stagger-container">
-            <h3 class="card__title">📅 全年时间轴</h3>
-            <div class="timeline" style="margin-top:var(--lg)">
-              <div class="timeline__item stagger-child"><div class="timeline__time">3-4月</div><div class="timeline__text">综合评价报名启动；专项计划资格申报；强基计划简章陆续发布</div></div>
-              <div class="timeline__item stagger-child"><div class="timeline__time">4-5月</div><div class="timeline__text">强基计划在阳光高考平台报名（限报1所）；专项计划资格审核公示</div></div>
-              <div class="timeline__item stagger-child"><div class="timeline__time">6月7-9日</div><div class="timeline__text"><strong>全国统一高考</strong></div></div>
-              <div class="timeline__item stagger-child"><div class="timeline__time">6月中旬</div><div class="timeline__text">高校发布招生章程和招生计划</div></div>
-              <div class="timeline__item stagger-child"><div class="timeline__time">6月23-26日</div><div class="timeline__text">高考成绩公布，同步发布一分一段表</div></div>
-              <div class="timeline__item stagger-child"><div class="timeline__time">6月底-7月初</div><div class="timeline__text"><strong>本科批次志愿填报</strong>（各省窗口期通常3-7天）</div></div>
-              <div class="timeline__item stagger-child"><div class="timeline__time">7月上旬</div><div class="timeline__text">提前批录取</div></div>
-              <div class="timeline__item stagger-child"><div class="timeline__time">7月中下旬</div><div class="timeline__text">本科批录取，征集志愿陆续发布</div></div>
-              <div class="timeline__item stagger-child"><div class="timeline__time">8月</div><div class="timeline__text">专科批次志愿填报与录取</div></div>
-            </div>
-          </div>
-
-          <!-- 2. Flow Diagram -->
-          <div class="card stagger-container">
-            <h3 class="card__title">🔄 投档录取流程</h3>
-            <svg class="flow-diagram" viewBox="0 0 700 360" style="margin-top:var(--lg)">
-              <defs>
-                <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="0%" stop-color="#C41E3A" stop-opacity="0.3"/>
-                  <stop offset="50%" stop-color="#C41E3A" stop-opacity="0.8"/>
-                  <stop offset="100%" stop-color="#C41E3A" stop-opacity="0.3"/>
-                </linearGradient>
-              </defs>
-              <rect x="20" y="20" width="190" height="60" rx="8" fill="var(--s1)" stroke="var(--b-light)"/>
-              <text x="115" y="45" text-anchor="middle" font-size="13" fill="var(--t0)" font-family="sans-serif">📊 分数排序</text>
-              <text x="115" y="65" text-anchor="middle" font-size="11" fill="var(--t2)" font-family="sans-serif">按投档分从高到低排队</text>
-
-              <rect x="255" y="20" width="190" height="60" rx="8" fill="var(--s1)" stroke="var(--b-light)"/>
-              <text x="350" y="45" text-anchor="middle" font-size="13" fill="var(--t0)" font-family="sans-serif">🔍 逐人检索</text>
-              <text x="350" y="65" text-anchor="middle" font-size="11" fill="var(--t2)" font-family="sans-serif">从第1名开始依次检索</text>
-
-              <rect x="490" y="20" width="190" height="60" rx="8" fill="var(--s1)" stroke="var(--b-light)"/>
-              <text x="585" y="45" text-anchor="middle" font-size="13" fill="var(--t0)" font-family="sans-serif">📋 志愿匹配</text>
-              <text x="585" y="65" text-anchor="middle" font-size="11" fill="var(--t2)" font-family="sans-serif">按A→B→C顺序检索</text>
-
-              <rect x="255" y="140" width="190" height="60" rx="8" fill="var(--s1)" stroke="var(--b-light)"/>
-              <text x="350" y="165" text-anchor="middle" font-size="13" fill="var(--t0)" font-family="sans-serif">📤 投档</text>
-              <text x="350" y="185" text-anchor="middle" font-size="11" fill="var(--t2)" font-family="sans-serif">匹配到计划余额→投出档案</text>
-
-              <rect x="255" y="260" width="190" height="60" rx="8" fill="var(--s1)" stroke="var(--b-light)"/>
-              <text x="350" y="285" text-anchor="middle" font-size="13" fill="var(--t0)" font-family="sans-serif">📝 院校审录</text>
-              <text x="350" y="305" text-anchor="middle" font-size="11" fill="var(--t2)" font-family="sans-serif">专业分配、审核录取</text>
-
-              <line x1="210" y1="50" x2="252" y2="50" stroke="url(#lineGrad)" stroke-width="1.5"/>
-              <line x1="445" y1="50" x2="487" y2="50" stroke="url(#lineGrad)" stroke-width="1.5"/>
-              <line x1="585" y1="80" x2="585" y2="110" stroke="url(#lineGrad)" stroke-width="1.5"/>
-              <line x1="585" y1="110" x2="350" y2="110" stroke="url(#lineGrad)" stroke-width="1.5"/>
-              <line x1="350" y1="110" x2="350" y2="137" stroke="url(#lineGrad)" stroke-width="1.5"/>
-              <line x1="350" y1="200" x2="350" y2="257" stroke="url(#lineGrad)" stroke-width="1.5"/>
-
-              <text x="80" y="140" font-size="12" fill="var(--ok)" font-family="sans-serif">✅ 匹配成功</text>
-              <text x="500" y="140" font-size="12" fill="var(--bad)" font-family="sans-serif">❌ 未匹配→下一志愿</text>
-              <text x="80" y="290" font-size="12" fill="var(--ok)" font-family="sans-serif">✅ 录取</text>
-              <text x="480" y="290" font-size="12" fill="var(--warn)" font-family="sans-serif">⚠️ 退档→征集志愿</text>
-            </svg>
-            <p class="sm" style="margin-top:var(--md);text-align:center">
-              <strong>核心原则：分数优先、遵循志愿、一次投档、不再补档</strong>
-            </p>
-          </div>
-
-          <!-- 3. Two Modes -->
-          <div class="card stagger-container">
-            <h3 class="card__title">⚖️ 两大填报模式对比</h3>
-            <div class="grid-2" style="margin-top:var(--lg)">
-              <div class="card card--accent stagger-child">
-                <h4>院校专业组模式</h4>
-                <p class="sm">适用：广东、江苏、湖北、湖南、四川、河南等23省</p>
-                <ul style="font-size:14px;color:var(--t1);line-height:2;margin-top:var(--sm)">
-                  <li>✅ 志愿单位：1院校 + 1专业组</li>
-                  <li>✅ 组内调剂，不跨组</li>
-                  <li>⚠️ 需检查专业组"干净度"</li>
-                  <li>📌 同一大学不同专业组投档线差异大</li>
-                </ul>
-              </div>
-              <div class="card card--accent stagger-child">
-                <h4>专业+院校模式</h4>
-                <p class="sm">适用：浙江、山东、河北、辽宁、重庆、贵州</p>
-                <ul style="font-size:14px;color:var(--t1);line-height:2;margin-top:var(--sm)">
-                  <li>✅ 志愿单位：1院校 + 1专业</li>
-                  <li>✅ 无调剂，精准录取</li>
-                  <li>⚠️ 志愿数量多（80-112个）</li>
-                  <li>📌 彻底消除被调剂的风险</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <!-- 4. Strategy -->
-          <div class="card stagger-container" id="strategy-card">
-            <h3 class="card__title">🎯 冲稳保梯度策略</h3>
-            <div class="strat-row" style="margin-top:var(--lg)">
-              <div class="strat-card strat-card--chong stagger-child">
-                <div class="strat-card__icon">🚀</div>
-                <div class="strat-card__title">冲刺</div>
-                <div class="strat-card__desc">高于自身位次<br>占志愿总数 <strong>15%-30%</strong><br>必须服从调剂</div>
-              </div>
-              <div class="strat-card strat-card--wen stagger-child">
-                <div class="strat-card__icon">✅</div>
-                <div class="strat-card__title">稳妥</div>
-                <div class="strat-card__desc">与自身位次±5%<br>占志愿总数 <strong>40%-50%</strong><br>志愿主体区域</div>
-              </div>
-              <div class="strat-card strat-card--bao stagger-child">
-                <div class="strat-card__icon">🛡️</div>
-                <div class="strat-card__title">保底</div>
-                <div class="strat-card__desc">低于自身位次<br>占志愿总数 <strong>20%-35%</strong><br>至少5个绝对保底</div>
-              </div>
-            </div>
-            <div style="display:flex;align-items:center;gap:var(--md);margin-top:var(--xl);flex-wrap:wrap;justify-content:center">
-              <span style="font-size:14px;color:var(--t1)">输入你的位次：</span>
-              <input type="number" id="calc-rank" placeholder="例：5000" style="width:140px;padding:10px 16px;border:1px solid var(--b-light);border-radius:var(--r-sm);font-size:16px;text-align:center">
-              <button class="btn btn--primary" id="calc-btn">计算梯度</button>
-            </div>
-            <div id="calc-result"></div>
-          </div>
-
-          <!-- 5. Methods -->
-          <div class="card stagger-container">
-            <h3 class="card__title">📐 位次法 vs 线差法</h3>
-            <div class="grid-2" style="margin-top:var(--lg)">
-              <div class="stagger-child">
-                <h4 style="color:var(--fx-r);margin-bottom:var(--sm)">位次法（核心）</h4>
-                <p class="sm">核心原则：位次 > 分数</p>
-                <ol style="font-size:14px;color:var(--t1);line-height:2;padding-left:18px">
-                  <li>查一分一段表，获取全省位次</li>
-                  <li>查目标院校近3年录取位次</li>
-                  <li>自己位次靠前→概率大</li>
-                </ol>
-              </div>
-              <div class="stagger-child">
-                <h4 style="color:var(--fx-r);margin-bottom:var(--sm)">线差法（辅助）</h4>
-                <p class="sm">你的线差 vs 院校线差</p>
-                <ol style="font-size:14px;color:var(--t1);line-height:2;padding-left:18px">
-                  <li>你的线差 = 分数 - 省控线</li>
-                  <li>院校线差 = 往年分数 - 当年省控线</li>
-                  <li>线差越大→录取概率越高</li>
-                </ol>
-              </div>
-            </div>
-            <table class="tbl" style="margin-top:var(--lg)">
-              <thead><tr><th>分数段</th><th>推荐方法</th><th>原因</th></tr></thead>
-              <tbody>
-                <tr><td>高分段（超特招线70分+）</td><td>位次法为主</td><td>同分考生少，位次更稳定</td></tr>
-                <tr><td>中分段（超线30-70分）</td><td>位次法+线差法</td><td>取两种方法交集，双重验证</td></tr>
-                <tr><td>低分段（批次线附近±30分）</td><td>线差法为主</td><td>考生密集，线差更稳定</td></tr>
-              </tbody>
-            </table>
-          </div>
-
-          <!-- 6. Special Admissions -->
-          <div class="card stagger-container">
-            <h3 class="card__title">🏛 特殊类型招生</h3>
-            <div class="accordion" style="margin-top:var(--lg)">
-              <div class="accordion__item">
-                <button class="accordion__trigger">强基计划 — 基础学科拔尖创新人才</button>
-                <div class="accordion__panel"><div class="accordion__panel-inner">
-                  <p class="sm"><strong>招生院校：</strong>39所双一流A类（985高校）</p>
-                  <p class="sm"><strong>成绩构成：</strong>高考≥85% + 校测≤15%</p>
-                  <p class="sm"><strong>降分幅度：</strong>10-40分</p>
-                  <p class="sm"><strong>培养模式：</strong>单独编班、导师制、本硕博衔接培养</p>
-                  <p class="sm"><strong>⚠️ 关键提醒：</strong>限报1所；录取即锁档；报名后有"网上确认"环节</p>
-                </div></div>
-              </div>
-              <div class="accordion__item">
-                <button class="accordion__trigger">综合评价 — 综合素质全面发展的学生</button>
-                <div class="accordion__panel"><div class="accordion__panel-inner">
-                  <p class="sm"><strong>招生院校：</strong>百余所（含985/211/省属重点/中外合办）</p>
-                  <p class="sm"><strong>成绩构成：</strong>高考60%+校测30%+学考10%（631模式最常见）</p>
-                  <p class="sm"><strong>降分幅度：</strong>20-60分</p>
-                  <p class="sm"><strong>⚠️ 关键提醒：</strong>可同时报多所；材料准备复杂；拿到录取资格后不能再参加后续普通批次</p>
-                </div></div>
-              </div>
-              <div class="accordion__item">
-                <button class="accordion__trigger">专项计划 — 农村/脱贫地区优秀学生</button>
-                <div class="accordion__panel"><div class="accordion__panel-inner">
-                  <p class="sm"><strong>三类计划：</strong>国家专项、高校专项、地方专项（可兼报）</p>
-                  <p class="sm"><strong>招生院校：</strong>约95所（部属高校及省重点）</p>
-                  <p class="sm"><strong>降分幅度：</strong>20-50分</p>
-                  <p class="sm"><strong>报考条件：</strong>本人及父母在实施区域有连续3年以上户籍，本人有当地高中连续3年学籍并实际就读</p>
-                  <p class="sm"><strong>⚠️ 重要：</strong>被专项计划录取后放弃入学或退学的，永久失去报考资格</p>
-                </div></div>
-              </div>
-            </div>
-          </div>
-
-          <!-- 7. Pitfalls -->
-          <div class="card stagger-container">
-            <h3 class="card__title">⚠️ 十大避坑提醒</h3>
-            <div class="tips-grid" style="margin-top:var(--lg)">
-              <div class="card stagger-child"><strong>1. 看位次不看分数</strong><p class="sm">每年试卷难度不同，分数波动大，位次才是核心参考指标</p></div>
-              <div class="card stagger-child"><strong>2. 服从调剂是保命符</strong><p class="sm">冲的院校必须服从调剂，否则退档后本批次无法补投</p></div>
-              <div class="card stagger-child"><strong>3. 组间不调剂</strong><p class="sm">调剂仅在当前专业组内进行，确认组内所有专业再勾选服从</p></div>
-              <div class="card stagger-child"><strong>4. 至少查阅3遍招生章程</strong><p class="sm">核查身体条件、单科成绩、语种、选科等限制</p></div>
-              <div class="card stagger-child"><strong>5. 填满所有志愿</strong><p class="sm">少填一个就少一次机会</p></div>
-              <div class="card stagger-child"><strong>6. 志愿顺序=投档顺序</strong><p class="sm">最想去的放最前面，匹配到就投档，后续作废</p></div>
-              <div class="card stagger-child"><strong>7. 冷热专业搭配</strong><p class="sm">同组内拉开梯度，避免全部报热门</p></div>
-              <div class="card stagger-child"><strong>8. 后批次也要填</strong><p class="sm">以防前批次全部落榜</p></div>
-              <div class="card stagger-child"><strong>9. 保管好密码</strong><p class="sm">防范志愿被篡改，填报后截图保存</p></div>
-              <div class="card stagger-child"><strong>10. 准时提交</strong><p class="sm">建议提前1天完成，不要卡最后几分钟</p></div>
-            </div>
-          </div>
-
-          <!-- 8. Checklist -->
-          <div class="card stagger-container">
-            <h3 class="card__title">✅ 填报前必查清单</h3>
-            <div class="checklist" id="pre-submit-checklist" style="margin-top:var(--lg)"></div>
-            <p class="xs" style="margin-top:var(--md)">勾选状态自动保存到本地浏览器</p>
-          </div>
-
-          <!-- 9. FAQ -->
-          <div class="card stagger-container">
-            <h3 class="card__title">❓ 常见问题与解决方案</h3>
-            <div class="accordion" style="margin-top:var(--lg)">
-              <div class="accordion__item">
-                <button class="accordion__trigger">什么是平行志愿？</button>
-                <div class="accordion__panel"><div class="accordion__panel-inner"><p class="sm">平行志愿是指一个批次中同时填报若干个地位相等的院校（或院校专业组），录取时按"分数优先、遵循志愿、一次投档"的原则进行投档。计算机按你的位次依次检索你所填的志愿，匹配到就投档，后续志愿作废。每个考生在本批次只有一次投档机会。</p></div></div>
-              </div>
-              <div class="accordion__item">
-                <button class="accordion__trigger">退档和滑档有什么区别？</button>
-                <div class="accordion__panel"><div class="accordion__panel-inner"><p class="sm"><strong>滑档：</strong>分数不够，所有志愿院校都无法提取你的档案（"报高了，一个都没录上"）。<br><strong>退档：</strong>档案已被高校提走，但因不服从调剂、体检不合格、单科不达标、专业已满等原因被退回。退档后本批次无法再投档，只能等征集志愿或下一批次。<br><strong>解决方案：</strong>冲刺院校必须勾选服从调剂；提前查阅招生章程排除硬性限制；保底志愿留足余量。</p></div></div>
-              </div>
-              <div class="accordion__item">
-                <button class="accordion__trigger">服从调剂一定能避免退档吗？</button>
-                <div class="accordion__panel"><div class="accordion__panel-inner"><p class="sm">不一定。如果你被投档到的专业组内所有未录满专业都有特殊要求（身体条件、单科成绩、语种等）且你不满足，或者未录满的是"只招有志愿考生"的专业，即使服从也会被退档。<br><strong>解决方案：</strong>填报前一定打开招生章程逐条核对；优先选择组内专业全部可接受的"干净组"。</p></div></div>
-              </div>
-              <div class="accordion__item">
-                <button class="accordion__trigger">位次和分数哪个更重要？</button>
-                <div class="accordion__panel"><div class="accordion__panel-inner"><p class="sm">位次更重要。因为每年试卷难度不同，分数波动大，但全省排名（位次）相对稳定。比如今年600分可能是全省第8000名，去年600分可能是第12000名——同一分数不同年份含金量完全不同。填报志愿务必以位次为基准，用一分一段表把分数换算成位次后再决策。</p></div></div>
-              </div>
-              <div class="accordion__item">
-                <button class="accordion__trigger">提前批没录取会影响本科批吗？</button>
-                <div class="accordion__panel"><div class="accordion__panel-inner"><p class="sm">不会。提前批未被录取，自动参加本科批录取，完全不影响后续机会。但提前批一旦录取，就不能参加后续批次了。<br><strong>建议：</strong>只填报你真正想去的提前批志愿，不要把提前批当"练手"。</p></div></div>
-              </div>
-              <div class="accordion__item">
-                <button class="accordion__trigger">新高考省份如何参考历史数据？</button>
-                <div class="accordion__panel"><div class="accordion__panel-inner"><p class="sm">新高考省份的选科组合会影响位次可比性。首次新高考的省份，往年文理分科数据参考价值有限。<br><strong>解决方案：</strong>扩大填报范围、多留余量；重点参考近1-2年已落地新高考省份的同类型数据；关注选科要求与自身选科是否匹配。</p></div></div>
-              </div>
-              <div class="accordion__item">
-                <button class="accordion__trigger">征集志愿是什么？值得等吗？</button>
-                <div class="accordion__panel"><div class="accordion__panel-inner"><p class="sm">征集志愿是每批次录取结束后，省考试院公布的未完成招生计划的院校名单，供未被录取的考生再次填报。<br><strong>风险：</strong>征集志愿的院校和专业通常是别人挑剩下的，好学校好专业极少；而且时间窗口非常短（通常只有1天）。<br><strong>策略：</strong>不要把希望寄托在征集志愿上，首次填报就要认真对待。如果首次落榜，征集志愿是最后的机会。</p></div></div>
-              </div>
-              <div class="accordion__item">
-                <button class="accordion__trigger">填报时系统卡顿或崩溃怎么办？</button>
-                <div class="accordion__panel"><div class="accordion__panel-inner"><p class="sm"><strong>解决方案：</strong>① 不要在截止时间前1小时才填报，提前1-2天完成；② 填报前先在纸上列好志愿顺序，不要边想边填；③ 每次修改后截图保存；④ 如果系统崩溃，立即联系省考试院技术支持电话（准考证背面有）；⑤ 不要频繁刷新页面，容易被系统判定为异常操作。</p></div></div>
-              </div>
-              <div class="accordion__item">
-                <button class="accordion__trigger">专业、学校、城市，应该优先考虑哪个？</button>
-                <div class="accordion__panel"><div class="accordion__panel-inner"><p class="sm">这是一个经典的三难选择，没有标准答案，取决于你的目标：<br><strong>想深造读研：</strong>学校 > 专业 > 城市（985/211保研率高）<br><strong>想直接就业：</strong>城市 > 学校 > 专业（一线城市实习机会多）<br><strong>有明确职业方向：</strong>专业 > 学校 > 城市（专业壁垒强的行业看重专业出身）<br><strong>不确定方向：</strong>学校 > 城市 > 专业（好学校转专业和跨考都更有优势）</p></div></div>
-              </div>
-            </div>
-          </div>
-
+        <div class="chap-estimate__table-wrap">
+          <table class="chap-estimate__table" id="estTable">
+            <thead>
+              <tr>
+                <th style="width:40px">序号</th>
+                <th>院校 / 专业组</th>
+                <th style="width:90px">参考位次</th>
+                <th style="width:70px">风险</th>
+              </tr>
+            </thead>
+            <tbody id="estTableBody">
+              <tr class="chap-estimate__empty">
+                <td colspan="4">输入分数后点击查询，显示匹配院校</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="chap-estimate__legend">
+          <span><span class="chap-estimate__dot chap-estimate__dot--chong"></span> 冲刺</span>
+          <span><span class="chap-estimate__dot chap-estimate__dot--wen"></span> 稳妥</span>
+          <span><span class="chap-estimate__dot chap-estimate__dot--bao"></span> 保底</span>
         </div>
       </div>
-    </section>
-
-    <!-- ═══════════ SECTION 3: 高校信息 (JS 动态渲染) ═══════════ -->
-    <section class="section" id="section-universities"></section>
-
-  </div><!-- /app__content -->
-</div><!-- /app -->
-
-<!-- ═══════════════ MOCK SUBMIT MODAL ═══════════════ -->
-<div class="modal-overlay" id="mock-modal">
-  <div class="modal" style="text-align:center">
-    <button class="modal__close" id="mock-modal-close">✕</button>
-    <div style="font-size:48px;margin-bottom:var(--md)">✅</div>
-    <h3>志愿提交成功！（模拟）</h3>
-    <p class="sm" style="margin-top:var(--sm)">这是模拟界面，不会真的提交。<br>在实际系统中提交后，请务必截图保存。</p>
-    <div style="margin-top:var(--lg);padding:var(--md);background:var(--s1);border-radius:var(--r-md);text-align:left">
-      <p class="xs"><strong>📌 温馨提示：</strong></p>
-      <p class="xs">1. 提交后请仔细核对志愿表</p>
-      <p class="xs">2. 在截止时间前可多次修改</p>
-      <p class="xs">3. 最终以最后一次提交为准</p>
-      <p class="xs">4. 截止后系统关闭，无法再修改</p>
     </div>
+  </div>
+</section>
+
+<!-- ====== Slogan 间隔 ====== -->
+<section class="chap-slogan" id="slogan">
+  <div class="chap-slogan__inner">
+    <h2 class="chap-slogan__title fx-hide">
+      <span class="chap-slogan__line">选对一次，</span>
+      <span class="chap-slogan__line">改变一生。</span>
+    </h2>
+    <p class="chap-slogan__sub fx-hide">志愿填报不是运气游戏。它是一个可以用信息、策略和冷静思考来驾驭的过程。</p>
+  </div>
+</section>
+
+<!-- ====== 第一章 · 高校信息 ====== -->
+<section class="chap-guide" id="chap01">
+  <div class="chap-guide__pin">
+    <header class="chap-guide__head">
+      <p class="chap-guide__kicker fx-label fx-hide"><span class="fx-chapnum">01</span> — 高校信息</p>
+      <h2 class="chap-guide__title fx-hide">了解你的选择</h2>
+      <p class="chap-guide__sub fx-hide">志愿的第一步，是知道有哪些选项摆在面前。</p>
+    </header>
+    <ol class="chap-guide__list">
+      <li><div class="chap-guide__row fx-hide">
+        <span class="chap-guide__num fx-num">01</span>
+        <span class="chap-guide__name">985 / 211 / 双一流</span>
+        <span class="chap-guide__desc">国家重点建设高校，资源、师资与平台的核心梯队</span>
+        <span class="chap-guide__tag fx-label">→ 院校层级</span>
+      </div></li>
+      <li><div class="chap-guide__row fx-hide">
+        <span class="chap-guide__num fx-num">02</span>
+        <span class="chap-guide__name">本科一批 · 二批</span>
+        <span class="chap-guide__desc">各省划定的录取批次线，决定了你能报考的学校范围</span>
+        <span class="chap-guide__tag fx-label">→ 批次线</span>
+      </div></li>
+      <li><div class="chap-guide__row fx-hide">
+        <span class="chap-guide__num fx-num">03</span>
+        <span class="chap-guide__name">专业排名 vs 学校排名</span>
+        <span class="chap-guide__desc">王牌专业可能藏在非顶尖学校里——不要只看校名</span>
+        <span class="chap-guide__tag fx-label">→ 择校策略</span>
+      </div></li>
+      <li><div class="chap-guide__row fx-hide">
+        <span class="chap-guide__num fx-num">04</span>
+        <span class="chap-guide__name">城市因素</span>
+        <span class="chap-guide__desc">一线城市的实习资源，是课堂之外的第二所大学</span>
+        <span class="chap-guide__tag fx-label">→ 地域考量</span>
+      </div></li>
+      <li><div class="chap-guide__row fx-hide">
+        <span class="chap-guide__num fx-num">05</span>
+        <span class="chap-guide__name">历年数据查询</span>
+        <span class="chap-guide__desc">各省教育考试院官网、阳光高考网——一手数据最可靠</span>
+        <span class="chap-guide__tag fx-label">→ 数据来源</span>
+      </div></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ====== 第二章 · 填报过程 ====== -->
+<section class="chap-guide" id="chap02">
+  <div class="chap-guide__pin">
+    <header class="chap-guide__head">
+      <p class="chap-guide__kicker fx-label fx-hide"><span class="fx-chapnum">02</span> — 填报过程</p>
+      <h2 class="chap-guide__title fx-hide">一步一步来</h2>
+      <p class="chap-guide__sub fx-hide">志愿填报有固定的时间线和操作流程，错过一步就错过一年。</p>
+    </header>
+    <ol class="chap-guide__list">
+      <li><div class="chap-guide__row fx-hide">
+        <span class="chap-guide__num fx-num">01</span>
+        <span class="chap-guide__name">出分前：估分与预案</span>
+        <span class="chap-guide__desc">根据估分提前列出3个梯度的目标院校</span>
+        <span class="chap-guide__tag fx-label">→ 准备</span>
+      </div></li>
+      <li><div class="chap-guide__row fx-hide">
+        <span class="chap-guide__num fx-num">02</span>
+        <span class="chap-guide__name">出分后：定位与筛选</span>
+        <span class="chap-guide__desc">用全省位次而非分数做判断——分数线每年浮动，位次相对稳定</span>
+        <span class="chap-guide__tag fx-label">→ 定位</span>
+      </div></li>
+      <li><div class="chap-guide__row fx-hide">
+        <span class="chap-guide__num fx-num">03</span>
+        <span class="chap-guide__name">冲 · 稳 · 保</span>
+        <span class="chap-guide__desc">每个批次按合理比例分配——冲高位次、稳中位次、保低位次</span>
+        <span class="chap-guide__tag fx-label">→ 策略</span>
+      </div></li>
+      <li><div class="chap-guide__row fx-hide">
+        <span class="chap-guide__num fx-num">04</span>
+        <span class="chap-guide__name">网上填报系统</span>
+        <span class="chap-guide__desc">各省统一平台操作，注意截止时间——最后一天系统可能拥堵</span>
+        <span class="chap-guide__tag fx-label">→ 操作</span>
+      </div></li>
+      <li><div class="chap-guide__row fx-hide">
+        <span class="chap-guide__num fx-num">05</span>
+        <span class="chap-guide__name">确认与提交</span>
+        <span class="chap-guide__desc">提交后不可更改——院校代码、专业代码，一字之差天壤之别</span>
+        <span class="chap-guide__tag fx-label">→ 提交</span>
+      </div></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ====== 间隔 · 大字陈述 ====== -->
+<section class="chap-slogan" id="slogan2">
+  <div class="chap-slogan__inner">
+    <h2 class="chap-slogan__title fx-hide">
+      <span class="chap-slogan__line">位次比分数重要。</span>
+      <span class="chap-slogan__line">策略比运气可靠。</span>
+    </h2>
+    <p class="chap-slogan__sub fx-hide">每年都有人因为最后一刻的草率，浪费了十二年的努力。这些错误，你不必再犯。</p>
+  </div>
+</section>
+
+<!-- ====== 第三章 · 注意事项 ====== -->
+<section class="chap-caution" id="chap03">
+  <div class="chap-caution__inner">
+    <header class="chap-caution__head">
+      <p class="chap-caution__kicker fx-label fx-hide"><span class="fx-chapnum">03</span> — 注意事项</p>
+      <h2 class="chap-caution__title fx-hide">小心这些坑</h2>
+      <p class="chap-caution__sub fx-hide">每年都有人踩。看完这一章，这些错误你不再犯。</p>
+    </header>
+    <div class="chap-caution__grid">
+      <div class="chap-caution__cell fx-hide">
+        <p class="chap-caution__cell-num">⚠ 01</p>
+        <h3 class="chap-caution__cell-title">只看校名不看专业</h3>
+        <p class="chap-caution__cell-desc">同一个校名之下，专业的录取分可能相差30分以上。去查具体专业的历年位次，不要被学校光环遮住眼睛。</p>
+      </div>
+      <div class="chap-caution__cell fx-hide">
+        <p class="chap-caution__cell-num">⚠ 02</p>
+        <h3 class="chap-caution__cell-title">全填热门专业</h3>
+        <p class="chap-caution__cell-desc">计算机、金融、临床——热有热的道理，但全部压在热门上，滑档风险极高。至少留一个稳妥选项。</p>
+      </div>
+      <div class="chap-caution__cell fx-hide">
+        <p class="chap-caution__cell-num">⚠ 03</p>
+        <h3 class="chap-caution__cell-title">忽视招生章程</h3>
+        <p class="chap-caution__cell-desc">每校招生章程里写着录取规则、专业限制、身体条件。不读章程就填报，等于闭眼过马路。</p>
+      </div>
+      <div class="chap-caution__cell fx-hide">
+        <p class="chap-caution__cell-num">⚠ 04</p>
+        <h3 class="chap-caution__cell-title">截止前最后一刻操作</h3>
+        <p class="chap-caution__cell-desc">系统拥堵、网络故障、密码忘记——最后一小时出状况你不是第一个。提前一天完成。</p>
+      </div>
+      <div class="chap-caution__cell fx-hide">
+        <p class="chap-caution__cell-num">⚠ 05</p>
+        <h3 class="chap-caution__cell-title">不服从调剂</h3>
+        <p class="chap-caution__cell-desc">勾选"不服从专业调剂"＝被该校退档＝本批次直接出局。除非绝对把握，否则服从调剂是保命选项。</p>
+      </div>
+      <div class="chap-caution__cell fx-hide">
+        <p class="chap-caution__cell-num">⚠ 06</p>
+        <h3 class="chap-caution__cell-title">轻信"内部指标"</h3>
+        <p class="chap-caution__cell-desc">所有声称能"交钱保录取"的都是诈骗。高考录取全程公开透明，不存在内部操作空间。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== 跑马灯 ====== -->
+<div class="chap-marquee" aria-hidden="true">
+  <div class="chap-marquee__track" id="marqueeTrack">
+    <span class="chap-marquee__chunk">你的志愿，你的未来 · 为每一个选择负责</span>
+    <span class="chap-marquee__chunk">你的志愿，你的未来 · 为每一个选择负责</span>
+    <span class="chap-marquee__chunk">你的志愿，你的未来 · 为每一个选择负责</span>
+    <span class="chap-marquee__chunk">你的志愿，你的未来 · 为每一个选择负责</span>
   </div>
 </div>
 
-<!-- ═══════════════ SCRIPTS ═══════════════ -->
-<script src="data/content.js"></script>
-<script src="data/universities.js"></script>
-<script src="js/particles.js"></script>
-<script src="js/fx.js"></script>
-<script src="js/intro.js"></script>
-<script src="js/main.js"></script>
-<script src="js/cursor.js"></script>
-<script src="js/scroll-effects.js"></script>
-<script src="js/text-effects.js"></script>
-<script src="js/section-interface.js"></script>
-<script src="js/section-steps.js"></script>
-<script src="js/section-universities.js"></script>
+<!-- ====== 终幕 ====== -->
+<section class="chap-finale" id="finale">
+  <div class="chap-finale__pin">
+    <h2 class="chap-finale__title fx-hide">祝你好运</h2>
+    <p class="chap-finale__sub fx-hide">十二年已经在你身上。志愿只是帮你走到对的地方。</p>
+    <a class="chap-finale__cta fx-hide" href="https://gaokao.chsi.com.cn/" target="_blank" rel="noopener">阳光高考网 · 官方入口 ↗</a>
+  </div>
+</section>
 
-<!-- ═══════════════ INIT ═══════════════ -->
-<script>
-(function() {
-  'use strict';
-  const particleCanvas = document.getElementById('particleCanvas');
-  if (!particleCanvas) return;
-  const mainPS = new ParticleSystem(particleCanvas);
-  mainPS.start();
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden && mainPS) {
-      mainPS.stop();
-    } else if (mainPS && mainPS.mode === 'frozen') {
-      mainPS.mode = 'ambient';
-      mainPS.lastTime = performance.now();
-      mainPS.loop(mainPS.lastTime);
-    }
-  });
-})();
-</script>
+</main>
 
+<script src="js/cinema.js"></script>
+<script src="js/estimate.js"></script>
 </body>
 </html>
